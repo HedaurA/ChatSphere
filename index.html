@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Чат</title>
+</head>
+<body>
+    <h2>Чат у реальному часі</h2>
+    <div id="chat"></div>
+    <input type="text" id="messageInput" placeholder="Введіть повідомлення">
+    <button onclick="sendMessage()">Відправити</button>
+
+    <script>
+        const ws = new WebSocket("ws://localhost:3000");
+
+        ws.onmessage = (event) => {
+            const chat = document.getElementById("chat");
+            const msg = document.createElement("p");
+            msg.textContent = event.data;
+            chat.appendChild(msg);
+        };
+
+        function sendMessage() {
+            const input = document.getElementById("messageInput");
+            ws.send(input.value);
+            input.value = "";
+        }
+    </script>
+</body>
+</html>
